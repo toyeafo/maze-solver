@@ -1,7 +1,7 @@
 from cell import Cell
 
 class Maze:
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win) -> None:
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None) -> None:
         self._x1 = x1
         self._y1 = y1
         self._num_rows = num_rows
@@ -32,3 +32,10 @@ class Maze:
 
     def _animate(self):
         self._win.root.after(1000, self._win.redraw())
+
+    def _break_entrance_and_exit(self):
+        start_cell = self._cells[0][0]
+        end_cell = self._cells[-1][-1]
+
+        start_cell.top_wall = False
+        end_cell.bottom_wall = False

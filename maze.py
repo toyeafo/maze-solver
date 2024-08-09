@@ -1,7 +1,8 @@
 from cell import Cell
+from random import random
 
 class Maze:
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None) -> None:
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None, seed=None) -> None:
         self._x1 = x1
         self._y1 = y1
         self._num_rows = num_rows
@@ -11,6 +12,9 @@ class Maze:
         self._win = win
         self._cells = []
         self._create_cells()
+        self._break_entrance_and_exit()
+        if seed is not None:
+            self.seed = random.seed(seed)
 
     def _create_cells(self):
         self._cells = [[Cell(self._win) for _ in range(self._num_rows)] for _ in range(self._num_cols)]
@@ -31,11 +35,33 @@ class Maze:
         self._animate()
 
     def _animate(self):
-        self._win.root.after(1000, self._win.redraw())
+        self._win.root.after(200, self._win.redraw())
 
     def _break_entrance_and_exit(self):
-        start_cell = self._cells[0][0]
-        end_cell = self._cells[-1][-1]
+        first_index_end = self._cells.index(self._cells[-1])
+        second_index_end = self._cells[-1].index(self._cells[-1][-1])
 
-        start_cell.top_wall = False
-        end_cell.bottom_wall = False
+        self._cells[0][0].top_wall = False
+        self._draw_cell(0, 0)
+        self._cells[-1][-1].bottom_wall = False
+        self._draw_cell(first_index_end, second_index_end)
+
+    def _break_walls_r(self, I, J):
+        self._cells[I][J].visited = True
+        while self._cells[I][J] is not None:
+            to_visit = []
+            
+            adjacent_1 = self._cells[I+1][J]
+            adjacent_2 = self._cells[I][J+1]
+
+            if adjacent_1.visited == False:
+                to_visit.append(adjacent_1)
+            if adjacent_2.visited == False:
+                to_visit.append(adjacent_2)
+
+            if len(to_visit) is None:
+                self._draw_cell(I, J)
+                return
+            else:
+                chosen_cell = to_visit[random(len(to_visit))]
+                

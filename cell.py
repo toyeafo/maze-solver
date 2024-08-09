@@ -10,6 +10,7 @@ class Cell:
         self._x2 = None
         self._y1 = None
         self._y2 = None
+        self.visited = False
         self._win = parent
 
     def draw(self, x1, y1, x2, y2):
@@ -22,15 +23,24 @@ class Cell:
         if self.left_wall:
             line = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
             self._win.draw_line(line, fill_color="black")
+
         if self.right_wall:
             line = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
             self._win.draw_line(line, fill_color="black")
+
         if self.top_wall:
             line = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
             self._win.draw_line(line, fill_color="black")
+        else:
+            line = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
+            self._win.draw_line(line, fill_color="white")
+
         if self.bottom_wall:
             line = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
             self._win.draw_line(line, fill_color="black")
+        else:
+            line = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
+            self._win.draw_line(line, fill_color="white")
 
     def draw_move(self, to_cell, undo=False):
         first_mid = self.calc_middle_point()

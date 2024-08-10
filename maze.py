@@ -108,39 +108,43 @@ class Maze:
         self._cells[I][J].visited = True
         if self._cells[I][J] == self._cells[-1][-1]:
             return True
+        
         for val_I, val_J in directions:
              # right
             if val_I == I + 1:
-                if self._cells[val_I][val_J] and not self._cells[val_I][val_J].visited and not self._cells[I][J].right_wall and not self._cells[val_I][val_J].left_wall:
+                if val_I <= self._num_cols - 1 and not self._cells[val_I][val_J].visited and not self._cells[I][J].right_wall:
                     self._cells[I][J].draw_move(self._cells[val_I][val_J])
-                if self._solve_r(val_I, val_J):
-                    return True
-                else:
-                    self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+                    if self._solve_r(val_I, val_J):
+                        return True
+                    else:
+                        self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+
             # left
             if val_I == I - 1:
-                if self._cells[val_I][val_J] and not self._cells[val_I][val_J].visited and not self._cells[I][J].left_wall and not self._cells[val_I][val_J].right_wall:
+                if val_I >= 0 and not self._cells[val_I][val_J].visited and not self._cells[I][J].left_wall:
                     self._cells[I][J].draw_move(self._cells[val_I][val_J])
-                if self._solve_r(val_I, val_J):
-                    return True
-                else:
-                    self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
-            #val_I
+                    if self._solve_r(val_I, val_J):
+                        return True
+                    else:
+                        self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+
+            # bottom
             if val_J == J + 1:
-                if self._cells[val_I][val_J] and not self._cells[val_I][val_J].visited and not self._cells[I][J].bottom_wall and not self._cells[val_I][val_J].top_wall:
+                if val_J <= self._num_rows - 1 and not self._cells[val_I][val_J].visited and not self._cells[I][J].bottom_wall:
                     self._cells[I][J].draw_move(self._cells[val_I][val_J])
-                if self._solve_r(val_I, val_J):
-                    return True
-                else:
-                    self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+                    if self._solve_r(val_I, val_J):
+                        return True
+                    else:
+                        self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+                    
             # up
             if val_J == J - 1:
-                if self._cells[val_I][val_J] and not self._cells[val_I][val_J].visited and not self._cells[I][J].top_wall and not self._cells[val_I][val_J].bottom_wall:
+                if val_J >= 0 and not self._cells[val_I][val_J].visited and not self._cells[I][J].top_wall:
                     self._cells[I][J].draw_move(self._cells[val_I][val_J])
-                if self._solve_r(val_I, val_J):
-                    return True
-                else:
-                    self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
+                    if self._solve_r(val_I, val_J):
+                        return True
+                    else:
+                        self._cells[I][J].draw_move(self._cells[val_I][val_J], undo=True)
 
         return False
                 

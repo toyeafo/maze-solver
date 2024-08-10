@@ -23,10 +23,16 @@ class Cell:
         if self.left_wall:
             line = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
             self._win.draw_line(line, fill_color="black")
+        else:
+            line = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
+            self._win.draw_line(line, fill_color="white")
 
         if self.right_wall:
             line = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
             self._win.draw_line(line, fill_color="black")
+        else:
+            line = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
+            self._win.draw_line(line, fill_color="white")
 
         if self.top_wall:
             line = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
